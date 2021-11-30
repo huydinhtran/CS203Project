@@ -25,25 +25,16 @@ class Prefetcher {
 
   public:
   	Prefetcher();
-	// should return true if a request is ready for this cycle
-	// Value returned indicates whether there is a request waiting from the prefetcher. 
-	// This function is used as a gate before getRequest() is called.
+	// Value returned indicates whether there is a request waiting from the prefetcher. This function is used as a gate before getRequest() is called.
 	bool hasRequest(u_int32_t cycle);
 
-	// request a desired address be brought in 
-	// Returns a request to be sent to the L2 cache. 
-	//Only the addr field of the Request struct will be used.
+	// Returns a request to be sent to the L2 cache. Only the addr field of the Request struct will be used.
 	Request getRequest(u_int32_t cycle);
 
-	// this function is called whenever the last prefetcher request was successfully sent to the L2
+	// This function is called as soon as the last request is successfully sent to the L2 cache.
 	void completeRequest(u_int32_t cycle);
 
-	/*
-	* This function is called whenever the CPU references memory.
-	* Note that only the addr, pc, load, issuedAt, and HitL1 should be considered valid data
-	This function is called after a CPU request is handled. 
-	The request gives the addr, pc, cycle it was issued, and whether it was a hit or miss in the D cache.
-	*/
+	// This function is called after a CPU request is handled. The request gives the addr, pc, cycle it was issued, and whether it was a hit or miss in the D cache.
 	void cpuRequest(Request req); 
 
 	//return the tag of the address
