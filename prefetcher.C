@@ -9,7 +9,7 @@
 Prefetcher pf;
 Request req;
 
-Prefetcher rpt[1024];
+Prefetcher rpt[4096];
 
 int entryCount = 0;
 
@@ -59,10 +59,10 @@ void Prefetcher::cpuRequest(Request req) {
 	}
 
 	if (entryCount != 0 && tag_check == 5000) {	
-		rpt[entryCount % 1024].tag       = pf.getTag(req.addr);
-		rpt[entryCount % 1024].prev_addr = req.addr;
-		rpt[entryCount % 1024].stride    = req.addr - prev_addr;
-		rpt[entryCount % 1024].state     = 0;
+		rpt[entryCount % 4096].tag       = pf.getTag(req.addr);
+		rpt[entryCount % 4096].prev_addr = req.addr;
+		rpt[entryCount % 4096].stride    = req.addr - prev_addr;
+		rpt[entryCount % 4096].state     = 0;
 		entryCount++;
 
 	}else{
@@ -74,7 +74,7 @@ void Prefetcher::cpuRequest(Request req) {
 		
 		if (rpt[tag_check].state == 0 && rpt[tag_check].stride==old_stride){
 			rpt[tag_check].state = 2;
-			_nextReq.addr = rpt[tag_check].prev_addr + rpt[tag_check].stride + 16+16+16;
+			_nextReq.addr = rpt[tag_check].prev_addr + rpt[tag_check].stride + 16+16+16+16;
 			_ready = true;
 
 		}
@@ -85,7 +85,7 @@ void Prefetcher::cpuRequest(Request req) {
 
 		if (rpt[tag_check].state == 1 && rpt[tag_check].stride==old_stride){
 			rpt[tag_check].state = 2;
-			_nextReq.addr = rpt[tag_check].prev_addr + rpt[tag_check].stride + 16+16+16;
+			_nextReq.addr = rpt[tag_check].prev_addr + rpt[tag_check].stride + 16+16+16+16;
 			_ready = true;
 
 		}
@@ -96,7 +96,7 @@ void Prefetcher::cpuRequest(Request req) {
 
 		if (rpt[tag_check].state == 2 && rpt[tag_check].stride==old_stride){
 			rpt[tag_check].state = 2;
-			_nextReq.addr = rpt[tag_check].prev_addr + rpt[tag_check].stride + 16+16+16;
+			_nextReq.addr = rpt[tag_check].prev_addr + rpt[tag_check].stride + 16+16+16+16;
 			_ready = true;
 		}
 
@@ -106,7 +106,7 @@ void Prefetcher::cpuRequest(Request req) {
 
 		if (rpt[tag_check].state == 3 && rpt[tag_check].stride==old_stride){
 			rpt[tag_check].state = 2;
-			_nextReq.addr = rpt[tag_check].prev_addr + rpt[tag_check].stride + 16+16+16;
+			_nextReq.addr = rpt[tag_check].prev_addr + rpt[tag_check].stride + 16+16+16+16;
 			_ready = true;
 
 		}
@@ -132,8 +132,8 @@ u_int32_t Prefetcher::findTag(u_int32_t value) {
 
     int index = 0;
 
-    while ( index < 1024 && rpt[index].tag != value ) ++index;
+    while ( index < 4096 && rpt[index].tag != value ) ++index;
 
-    return ( index == 1024 ? 5000 : index );
+    return ( index == 4096 ? 5000 : index );
 	
 }
