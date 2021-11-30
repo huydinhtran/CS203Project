@@ -74,7 +74,7 @@ void Prefetcher::cpuRequest(Request req) {
 		
 		if (rpt[tag_check].state == 0 && rpt[tag_check].stride==old_stride){
 			rpt[tag_check].state = 2;
-			_nextReq.addr = rpt[tag_check].prev_addr + rpt[tag_check].stride + 16+16+8;
+			_nextReq.addr = rpt[tag_check].prev_addr + rpt[tag_check].stride + 16+16;
 			_ready = true;
 
 		}
@@ -85,7 +85,7 @@ void Prefetcher::cpuRequest(Request req) {
 
 		if (rpt[tag_check].state == 1 && rpt[tag_check].stride==old_stride){
 			rpt[tag_check].state = 2;
-			_nextReq.addr = rpt[tag_check].prev_addr + rpt[tag_check].stride + 16+16+8;
+			_nextReq.addr = rpt[tag_check].prev_addr + rpt[tag_check].stride + 16+16;
 			_ready = true;
 
 		}
@@ -96,7 +96,7 @@ void Prefetcher::cpuRequest(Request req) {
 
 		if (rpt[tag_check].state == 2 && rpt[tag_check].stride==old_stride){
 			rpt[tag_check].state = 2;
-			_nextReq.addr = rpt[tag_check].prev_addr + rpt[tag_check].stride + 16+16+8;
+			_nextReq.addr = rpt[tag_check].prev_addr + rpt[tag_check].stride + 16+16;
 			_ready = true;
 		}
 
@@ -106,7 +106,7 @@ void Prefetcher::cpuRequest(Request req) {
 
 		if (rpt[tag_check].state == 3 && rpt[tag_check].stride==old_stride){
 			rpt[tag_check].state = 2;
-			_nextReq.addr = rpt[tag_check].prev_addr + rpt[tag_check].stride + 16+16+8;
+			_nextReq.addr = rpt[tag_check].prev_addr + rpt[tag_check].stride + 16+16;
 			_ready = true;
 
 		}
