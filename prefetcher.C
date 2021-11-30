@@ -9,7 +9,7 @@
 Prefetcher pf;
 Request req;
 
-Prefetcher rpt[4096];
+Prefetcher rpt[2048];
 
 int entryCount = 0;
 
@@ -59,10 +59,10 @@ void Prefetcher::cpuRequest(Request req) {
 	}
 
 	if (entryCount != 0 && tag_check == 5000) {	
-		rpt[entryCount % 4096].tag       = pf.getTag(req.addr);
-		rpt[entryCount % 4096].prev_addr = req.addr;
-		rpt[entryCount % 4096].stride    = req.addr - prev_addr;
-		rpt[entryCount % 4096].state     = 0;
+		rpt[entryCount % 2048].tag       = pf.getTag(req.addr);
+		rpt[entryCount % 2048].prev_addr = req.addr;
+		rpt[entryCount % 2048].stride    = req.addr - prev_addr;
+		rpt[entryCount % 2048].state     = 0;
 		entryCount++;
 
 	}else{
@@ -132,8 +132,8 @@ u_int32_t Prefetcher::findTag(u_int32_t value) {
 
     int index = 0;
 
-    while ( index < 4096 && rpt[index].tag != value ) ++index;
+    while ( index < 2048 && rpt[index].tag != value ) ++index;
 
-    return ( index == 4096 ? 5000 : index );
+    return ( index == 2048 ? 5000 : index );
 	
 }
